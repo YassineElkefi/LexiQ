@@ -17,31 +17,37 @@ const ROWS = [
 
 export default function Keyboard({ onKey, letterStatuses, disabled }: KeyboardProps) {
   return (
-    <div className="flex flex-col gap-2 items-center w-full max-w-[500px]">
-      {ROWS.map((row, ri) => (
-        <div key={ri} className="flex gap-[6px] justify-center w-full">
-          {row.map((key) => {
-            const isWide = key === 'ENTER' || key === '⌫';
-            const status = key.length === 1 ? letterStatuses[key] : undefined;
+    <div className="w-full px-1" style={{ maxWidth: '500px' }}>
+      <div className="flex flex-col gap-[5px]">
+        {ROWS.map((row, ri) => (
+          <div key={ri} className="flex gap-[5px] justify-center">
+            {row.map((key) => {
+              const isWide   = key === 'ENTER' || key === '⌫';
+              const status   = key.length === 1 ? letterStatuses[key] : undefined;
 
-            return (
-              <button
-                key={key}
-                onClick={() => !disabled && onKey(key)}
-                disabled={disabled}
-                className={`key ${status || ''} ${isWide ? 'text-sm font-bold' : 'uppercase'}`}
-                style={{
-                  minWidth: isWide ? 65 : 43,
-                  fontSize: key === 'ENTER' ? '0.7rem' : key === '⌫' ? '1.2rem' : '0.9375rem',
-                }}
-                aria-label={key === '⌫' ? 'Backspace' : key}
-              >
-                {key}
-              </button>
-            );
-          })}
-        </div>
-      ))}
+              return (
+                <button
+                  key={key}
+                  onClick={() => !disabled && onKey(key)}
+                  disabled={disabled}
+                  className={`key ${status || ''}`}
+                  style={{
+                    /* flex-based sizing: wide keys get ~1.6× a normal key */
+                    flex: isWide ? '1.6 1 0' : '1 1 0',
+                    minWidth: 0,          /* allow shrinking below content */
+                    maxWidth: isWide ? 72 : 45,
+                    fontSize: key === 'ENTER' ? '0.65rem' : key === '⌫' ? '1.1rem' : '0.9rem',
+                    padding: '0 2px',
+                  }}
+                  aria-label={key === '⌫' ? 'Backspace' : key}
+                >
+                  {key}
+                </button>
+              );
+            })}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

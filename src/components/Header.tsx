@@ -21,7 +21,7 @@ export default function Header({
       className="w-full"
       style={{ borderBottom: '1px solid var(--border-color)' }}
     >
-      <div className="max-w-xl mx-auto px-4 h-14 flex items-center justify-between">
+      <div className="max-w-xl mx-auto px-4 h-19 flex items-center justify-between">
         {/* Left icons */}
         <div className="flex items-center gap-1">
           <IconButton onClick={onOpenHelp} aria-label="Help">
