@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LexiQ - A Wordle Clone
+
+LexiQ is a polished Wordle clone built with Next.js 14, TypeScript, and Tailwind CSS.
+
+## Features
+
+- **Daily Mode** — One word per day, same for everyone, resets at midnight
+- **Unlimited Mode** — Play as many games as you want with random words
+- **Hard Mode** — Revealed hints must be used in subsequent guesses
+- **Dark / Light Theme** — Persisted across sessions
+- **Statistics** — Win rate, streaks, guess distribution
+- **Animations** — Tile flip reveal, shake on invalid guess, bounce on win
+- **Word Validation** — Uses the Datamuse API to check valid English words
+
+## Project Structure
+
+```
+app/
+  layout.tsx       ← Root layout (fonts, dark mode script)
+  page.tsx         ← Main game controller
+  globals.css      ← CSS variables, animations, tile/key styles
+
+components/
+  GameBoard.tsx    ← 6×5 tile grid with flip/shake/bounce animations
+  Keyboard.tsx     ← On-screen keyboard with letter color states
+  Header.tsx       ← Title, mode switcher, icon buttons
+  HelpModal.tsx    ← How to play instructions
+  StatsModal.tsx   ← Stats + countdown timer
+  SettingsModal.tsx← Hard mode & dark theme toggles
+  Toast.tsx        ← Notification toasts
+  Confetti.tsx     ← Confetti animation on win
+
+lib/
+  types.ts         ← TypeScript types
+  words.ts         ← Word list, daily word logic, Datamuse validation
+  gameLogic.ts     ← Guess evaluation, hard mode, letter statuses, stats
+```
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Dependencies
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Next.js 14 (App Router)
+- React 18
+- TypeScript
+- Tailwind CSS v3
+- Google Fonts: Bebas Neue (display), Space Mono (mono), Inter (body)
+- Datamuse API (word validation — no API key needed)
 
-## Learn More
+## Local Storage Keys
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Key | Purpose |
+|-----|---------|
+| `wordle-theme` | `'dark'` or `'light'` |
+| `wordle-hard-mode` | `'true'` or `'false'` |
+| `wordle-stats` | JSON stats object |
+| `wordle-visited` | First-visit flag (shows help modal) |
+| `wordle-daily-YYYY-M-D` | Daily game state (guesses, status) |
