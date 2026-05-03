@@ -77,12 +77,30 @@ export const EASY_WORDS = [
   "zones"
 ];
 
+function seededRandom(seed: number): number {
+  const x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+}
+
+function shuffleArray<T>(array: T[], seed: number): T[] {
+  const arr = [...array];
+
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(seededRandom(seed + i) * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+
+  return arr;
+}
+
+const SHUFFLED_WORDS = shuffleArray(EASY_WORDS, 2024);
+
 export function getDailyWord(): string {
   const now = new Date();
   const start = new Date(2024, 0, 1); // Jan 1, 2024 as epoch
   const diff = Math.floor((now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
-  const index = diff % EASY_WORDS.length;
-  return EASY_WORDS[index].toUpperCase();
+  const index = diff % SHUFFLED_WORDS.length;
+  return SHUFFLED_WORDS[index].toUpperCase();
 }
 
 export function getTimeUntilMidnight(): { hours: number; minutes: number; seconds: number } {
